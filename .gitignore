@@ -110,4 +110,6 @@ venv.bak/
 # 怪しかったら、指摘お願いします
 *.sqlite3
 admin.cpython-35.pyc
+settings.cpython-35.pyc
 /migrations/
+/.idea/
