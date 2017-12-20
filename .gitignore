@@ -104,3 +104,10 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# ここまではgiboで作成したテンプレート
+# ここからは自分が書いたもの
+# 怪しかったら、指摘お願いします
+*.sqlite3
+admin.cpython-35.pyc
+/migrations/
