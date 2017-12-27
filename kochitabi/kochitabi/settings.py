@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'cms',
     'api',
     'rest_framework',
-    
+    'drf_multiple_model',
 ]
 
 MIDDLEWARE = [

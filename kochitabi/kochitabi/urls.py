@@ -20,5 +20,6 @@ from cms.urls import router as cms
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^api/', include(cms.urls)),
+    #url(r'^api/', include(cms.urls)),
+    url(r'^api/', include('cms.urls', namespace='api')),
 ]
