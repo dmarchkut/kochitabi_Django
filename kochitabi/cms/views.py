@@ -1,9 +1,25 @@
 import datetime
+import json
 from rest_framework import viewsets, filters
 from collections import OrderedDict
 from django.http.response import JsonResponse
+from django.http import HttpResponse
 from .models import Message, Coordinate, Photo_path, Spot, Character, Environment, Access_point, Character_data, Spot_photo
 from .serializer import MessageSerializer, CoordinateSerializer, Photo_pathSerializer, SpotSerializer, CharacterSerializer, EnvironmentSerializer, Access_pointSerializer, Character_dataSerializer
+
+def render_json_response(request, data, status=None):
+    """response を JSON で返却"""
+    json_str = json.dumps(data, ensure_ascii=False, indent=2)
+    callback = request.GET.get('callback')
+    if not callback:
+        callback = request.POST.get('callback')
+    if callback:
+        json_str = "%s(%s)" % (callback, json_str)
+        response = HttpResponse(json_str, content_type='application/javascript; charset=UTF-8', status=status)
+    else:
+        response = HttpResponse(json_str, content_type='application/json; charset=UTF-8', status=status)
+    return response
+
 
 def Local_spotViewSet(request):
     local_spots = []
@@ -30,13 +46,13 @@ def Local_spotViewSet(request):
             ('longitude', coordinate.longitude),
             ('photo_file_path', photo_path.photo_file_path),
             ('text_data', message.text_data),
-            ('created_at', datetime.datetime.now()),
-            ('update_at', datetime.datetime.now()),
+            ('created_at', str(datetime.datetime.now())),
+            ('update_at', str(datetime.datetime.now())),
         ])
         local_spots.append(local_spot)
 
     data = OrderedDict([ ('local_spot', local_spot) ])
-    return JsonResponse(data)
+    return render_json_response(request, data)
 
 
 def Local_environment(request):
@@ -48,13 +64,13 @@ def Local_environment(request):
             ('environment_id', environment.environment_id),
             ('weather', environment.weather),
             ('temperature', environment.temperature),
-            ('created_at', datetime.datetime.now()),
-            ('update_at', datetime.datetime.now()),
+            ('created_at', str(datetime.datetime.now())),
+            ('update_at', str(datetime.datetime.now())),
         ])
         local_environments.append(environment)
 
     data = OrderedDict([ ('local_spot', local_environments)])
-    return JsonResponse(data)
+    return render_json_response(request, data)
 
 
 def Local_access_point(request):
@@ -76,13 +92,13 @@ def Local_access_point(request):
             ('latitude', coordinate.latitude),
             ('longitude', coordinate.longitude),
             ('text_data', message.text_data),
-            ('created_at', datetime.datetime.now()),
-            ('update_at', datetime.datetime.now()),
+            ('created_at', str(datetime.datetime.now())),
+            ('update_at', str(datetime.datetime.now())),
         ])
         local_access_points.append(local_access_point)
 
     data = OrderedDict([('local_access_point', local_access_points)])
-    return JsonResponse(data)
+    return render_json_response(request, data)
 
 
 def Local_character(request):
@@ -98,13 +114,13 @@ def Local_character(request):
             ('access_point_id', access_point.access_point_id),
             ('character_name', character.character_name),
             ('character_file_path', character_data.character_file_pass),
-            ('created_at', datetime.datetime.now()),
-            ('update_at', datetime.datetime.now()),
+            ('created_at', str(datetime.datetime.now())),
+            ('update_at', str(datetime.datetime.now())),
         ])
         local_characters.append(local_character)
 
     data = OrderedDict([('local_character', local_characters)])
-    return JsonResponse(data)
+    return render_json_response(request, data)
 
 
 
