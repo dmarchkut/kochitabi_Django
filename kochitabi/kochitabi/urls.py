@@ -13,9 +13,15 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
+
+from cms.urls import router as cms
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    #RESTフレーム読み込み
+    url(r'^api/', include(cms.urls)),
+    #複合モデルによるjson出力用
+    url(r'^api/', include('cms.urls', namespace='api')),
 ]

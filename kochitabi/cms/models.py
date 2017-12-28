@@ -42,7 +42,7 @@ class Spot(models.Model):
     message_id     = models.ForeignKey(Message)
     spot_name      = models.TextField('観光地名', max_length = 50, null=False)
     spot_phoname   = models.TextField('フリガナ', max_length = 50, null=False)
-    steet_address  = models.TextField('住所', max_length = 50, null=False)
+    street_address  = models.TextField('住所', max_length = 50, null=False)
     postal_code    = models.IntegerField('郵便番号', null=False)
     created_at     = models.DateTimeField('作成日時', null=False)
     update_at      = models.DateTimeField('更新日時', null=False)
@@ -89,6 +89,7 @@ class Access_point(models.Model):
     access_point_id   = models.CharField('アクセスポイントID', primary_key=True, max_length = 6, null=False)
     spot_id           = models.ForeignKey(Spot)
     coordinate_id     = models.ForeignKey(Coordinate)
+    message_id          = models.ForeignKey(Message)
     raspberry_pi_number   = models.CharField('RaspberryPi識別番号', max_length = 6, null=False)
     access_point_name = models.TextField('アクセスポイント名', max_length = 50, null=False)
     created_at        = models.DateTimeField('作成日時', null=False)
@@ -99,16 +100,15 @@ class Access_point(models.Model):
 
 class Character_data(models.Model):
     """キャラクターデータ"""
-    character_id        = models.CharField('キャラクターデータID', max_length = 6, primary_key=True, null=False)
+    character_data_id        = models.CharField('キャラクターデータID', max_length = 6, primary_key=True, null=False)
     access_point_id     = models.ForeignKey(Access_point)
     character_id        = models.ForeignKey(Character)
-    message_id          = models.ForeignKey(Message)
     weather_condition   = models.CharField('天気条件', max_length = 2, null=False)
     character_file_pass = models.TextField('キャラクターファイルパス', max_length = 50)
     created_at          = models.DateTimeField('作成日時', null=False)
     update_at           = models.DateTimeField('更新日時', null=False)
     def __str__(self):
-        return self.character_id
+        return self.character_data_id
 
 
 class Point_temperature(models.Model):
