@@ -20,6 +20,8 @@ from cms.urls import router as cms
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    #url(r'^api/', include(cms.urls)),
+    #RESTフレーム読み込み
+    url(r'^api/', include(cms.urls)),
+    #複合モデルによるjson出力用
     url(r'^api/', include('cms.urls', namespace='api')),
 ]
