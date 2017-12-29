@@ -33,7 +33,11 @@ def Local_spotViewSet(request):
         coordinate = Coordinate.objects.all().filter(coordinate_id=coordinate_id).first()
         message = Message.objects.all().filter(message_id=message_id).first()
         environment = Environment.objects.all().filter(spot_id=spot.spot_id).first()
+        if environment is None:
+            continue
         spot_photo = Spot_photo.objects.all().filter(spot_id=spot.spot_id).first()
+        if spot_photo is None:
+            continue
         photo_path = Photo_path.objects.all().filter(photo_path_id=spot_photo.use_photo_path_id).first()
 
         local_spot = OrderedDict([
@@ -60,6 +64,10 @@ def Local_environment(request):
 
     for environment in Environment.objects.all().order_by('environment_id'):
 
+        spot_photo = Spot_photo.objects.all().filter(spot_id=environment.spot_id).first()
+        if spot_photo is None:
+            continue
+
         environment = OrderedDict([
             ('environment_id', environment.environment_id),
             ('weather', environment.weather),
@@ -78,9 +86,19 @@ def Local_access_point(request):
 
     for access_point in Access_point.objects.all().order_by('access_point_id'):
 
+        spot_id = access_point.spot_id
         coordinate_id = access_point.coordinate_id
         message_id = access_point.message_id
-        spot_id = access_point.spot_id
+
+        environment = Environment.objects.all().filter(spot_id=spot_id).first()
+        if environment is None:
+            continue
+        spot_photo = Spot_photo.objects.all().filter(spot_id=spot_id).first()
+        if spot_photo is None:
+            continue
+        character_data = Character_data.objects.all().filter(access_point_id=access_point.access_point_id).first()
+        if character_data is None:
+            continue
         spot = Spot.objects.all().filter(spot_id=spot_id).first()
         coordinate = Coordinate.objects.all().filter(coordinate_id=coordinate_id).first()
         message = Message.objects.all().filter(message_id=message_id).first()
@@ -105,10 +123,23 @@ def Local_character(request):
     local_characters = []
 
     for character_data in Character_data.objects.all().order_by('character_data_id'):
-        character_id = character_data.character_id
+
         access_point_id = character_data.access_point_id
-        character = Character.objects.all().filter(character_id=character_id).first()
         access_point = Access_point.objects.all().filter(access_point_id=access_point_id).first()
+        environment = Environment.objects.all().filter(spot_id=access_point.spot_id).first()
+        if environment is None:
+            continue
+        spot_photo = Spot_photo.objects.all().filter(spot_id=access_point.spot_id).first()
+        if spot_photo is None:
+            continue
+        character_data = Character_data.objects.all().filter(access_point_id=access_point.access_point_id).first()
+        if character_data is None:
+            continue
+        if environment.weather != character_data.weather_condition:
+            continue
+
+        character_id = character_data.character_id
+        character = Character.objects.all().filter(character_id=character_id).first()
 
         local_character = OrderedDict([
             ('access_point_id', access_point.access_point_id),
@@ -121,44 +152,3 @@ def Local_character(request):
 
     data = OrderedDict([('local_character', local_characters)])
     return render_json_response(request, data)
-
-
-
-class MessageViewSet(viewsets.ModelViewSet):
-    queryset = Message.objects.all()
-    serializer_class = MessageSerializer
-
-
-class CoordinateViewSet(viewsets.ModelViewSet):
-    queryset = Coordinate.objects.all()
-    serializer_class = CoordinateSerializer
-
-
-class Photo_pathViewSet(viewsets.ModelViewSet):
-    queryset = Photo_path.objects.all()
-    serializer_class = Photo_pathSerializer
-
-
-class SpotViewSet(viewsets.ModelViewSet):
-    queryset = Spot.objects.all()
-    serializer_class = SpotSerializer
-
-
-class CharacterViewSet(viewsets.ModelViewSet):
-    queryset = Character.objects.all()
-    serializer_class = CharacterSerializer
-
-
-class EnvironmentViewSet(viewsets.ModelViewSet):
-    queryset = Environment.objects.all()
-    serializer_class = EnvironmentSerializer
-
-
-class Access_pointViewSet(viewsets.ModelViewSet):
-    queryset = Access_point.objects.all()
-    serializer_class = Access_pointSerializer
-
-
-class Character_dataViewSet(viewsets.ModelViewSet):
-    queryset = Message.objects.all()
-    serializer_class = MessageSerializer
