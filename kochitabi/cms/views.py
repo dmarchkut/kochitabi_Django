@@ -22,6 +22,7 @@ def render_json_response(request, data, status=None):
 
 
 def Local_spotViewSet(request):
+    """ローカル観光地"""
     local_spots = []
 
     for spot in Spot.objects.all().order_by('spot_id'):
@@ -135,8 +136,8 @@ def Local_character(request):
         character_data = Character_data.objects.all().filter(access_point_id=access_point.access_point_id).first()
         if character_data is None:
             continue
-        if environment.weather != character_data.weather_condition:
-            continue
+        # if environment.weather != character_data.weather_condition:
+        #     continue
 
         character_id = character_data.character_id
         character = Character.objects.all().filter(character_id=character_id).first()
