@@ -5,7 +5,6 @@ from collections import OrderedDict
 from django.http.response import JsonResponse
 from django.http import HttpResponse
 from .models import Message, Coordinate, Photo_path, Spot, Character, Environment, Access_point, Character_data, Spot_photo
-from .serializer import MessageSerializer, CoordinateSerializer, Photo_pathSerializer, SpotSerializer, CharacterSerializer, EnvironmentSerializer, Access_pointSerializer, Character_dataSerializer
 
 def render_json_response(request, data, status=None):
     """response を JSON で返却"""
@@ -153,3 +152,12 @@ def Local_character(request):
 
     data = OrderedDict([('local_character', local_characters)])
     return render_json_response(request, data)
+
+
+
+
+
+
+#form = MyForm(data=request.POST)
+
+#{‘coord’: {‘lon’: 133.53, ‘lat’: 33.56}, ‘weather’: [{‘id’: 803, ‘main’: ‘Clouds’, ‘description’: ‘broken clouds’, ‘icon’: ’04n’}]’cod’:200}
