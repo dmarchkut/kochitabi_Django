@@ -135,8 +135,18 @@ def Local_character(request):
         character_data = Character_data.objects.all().filter(access_point_id=access_point.access_point_id).first()
         if character_data is None:
             continue
-        # if environment.weather != character_data.weather_condition:
-        #     continue
+
+        weather = environment.weather
+
+        if character_data.weather_condition == "晴天":
+            #晴天時の条件
+            print(weather)
+            if weather != "晴れ" and weather != "曇り":
+                continue
+        else:
+            #雨天時の条件
+            if weather == "晴れ" or weather == "曇り":
+                continue
 
         character_id = character_data.character_id
         character = Character.objects.all().filter(character_id=character_id).first()

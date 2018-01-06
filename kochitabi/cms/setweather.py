@@ -35,13 +35,13 @@ def insert_weathers(request):
     elif weather_main == "Drizzle":
         weatherText = "霧雨"
     elif weather_main == "Rain":
-        weatherText = "霧雨"
+        weatherText = "雨"
     elif weather_main == "Snow":
         weatherText = "雪"
     elif weather_main == "Atmosphere":
         weatherText = "霧"
     elif weather_main == "Clear":
-        weatherText = "快晴"
+        weatherText = "晴れ"
     elif weather_main == "Clouds":
         weatherText = "雲"
     else:
