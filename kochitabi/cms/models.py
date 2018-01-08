@@ -1,5 +1,10 @@
 from django.db import models
 
+
+WEATHER_CHOICES = (("晴れ", "晴れ"),("曇り", "曇り"),("雨", "雨"),("雪", "雪"),("雷雲", "雷雲"),("霧雨", "霧雨"),("霧", "霧"),)
+WEATHER_CONDITION_CHOICES = (("晴天", "晴天"),("雨天", "雨天"))
+#weather_condition
+
 # Create your models here.
 class Message(models.Model):
     """メッセージ"""
@@ -76,8 +81,9 @@ class Environment(models.Model):
     """環境"""
     environment_id = models.CharField('環境ID', primary_key=True, max_length = 6, null=False)
     spot_id        = models.ForeignKey(Spot)
-    weather        = models.CharField('天気', max_length = 10)
-    temperature    = models.CharField('気温', max_length = 5)
+    weather        = models.CharField('天気', choices=WEATHER_CHOICES, max_length = 10, null=True, blank=True)
+    temperature    = models.CharField('気温', max_length = 5, null=True, blank=True)
+    # temperature    = Integer.CharField('気温', max_length = 5, null=True)
     created_at     = models.DateTimeField('作成日時', null=False)
     update_at      = models.DateTimeField('更新日時', null=False)
     def __str__(self):
@@ -103,7 +109,7 @@ class Character_data(models.Model):
     character_data_id        = models.CharField('キャラクターデータID', max_length = 6, primary_key=True, null=False)
     access_point_id     = models.ForeignKey(Access_point)
     character_id        = models.ForeignKey(Character)
-    weather_condition   = models.CharField('天気条件', max_length = 2, null=False)
+    weather_condition   = models.CharField('天気条件', choices = WEATHER_CONDITION_CHOICES, max_length = 2, null=False)
     character_file_pass = models.TextField('キャラクターファイルパス', max_length = 50)
     created_at          = models.DateTimeField('作成日時', null=False)
     update_at           = models.DateTimeField('更新日時', null=False)
