@@ -20,5 +20,6 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     #複合モデルによるjson出力用
-    url(r'^api/', include('cms.urls', namespace='api')),
+    url(r'^cms/', include('cms.urls', namespace='cms')),
+    url(r'^api/', include('api.urls', namespace='api')),
 ]
