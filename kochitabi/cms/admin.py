@@ -1,16 +1,6 @@
 from django.contrib import admin
-
-# Register your models here.
-from .models import Access_point
-from .models import Character
-from .models import Character_data
-from .models import Coordinate
-from .models import Environment
-from .models import Message
-from .models import Photo_path
-from .models import Point_temperature
-from .models import Spot
-from .models import Spot_photo
+from cms.models import (Message, Coordinate, Photo_path, Spot, Character,
+                        Environment, Access_point, Character_data, Spot_photo, Point_temperature)
 
 admin.site.register(Access_point)
 admin.site.register(Character)
