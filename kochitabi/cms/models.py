@@ -1,9 +1,8 @@
 from django.db import models
 
 
-WEATHER_CHOICES = (("晴れ", "晴れ"),("曇り", "曇り"),("雨", "雨"),("雪", "雪"),("雷雲", "雷雲"),("霧雨", "霧雨"),("霧", "霧"),)
+WEATHER_CHOICES = (("晴れ", "晴れ"),("曇り", "曇り"),("雨", "雨"),("雪", "雪"),("雷雲", "雷雲"),("霧雨", "霧雨"),("霧", "霧"),("その他", "その他"),)
 WEATHER_CONDITION_CHOICES = (("晴天", "晴天"),("雨天", "雨天"))
-#weather_condition
 
 # Create your models here.
 class Message(models.Model):
@@ -28,12 +27,11 @@ class Coordinate(models.Model):
         return self.coordinate_id
 
 
-
 class Photo_path(models.Model):
     """写真ファイルパス"""
     photo_path_id   = models.CharField('写真ファイルパスID', primary_key=True, max_length = 6, null=False)
     photo_file_path = models.TextField('写真ファイルパス', max_length = 50, null=False)
-    photo_index     = models.IntegerField("写真索引番号", max_length = 2, null=False)
+    photo_index     = models.IntegerField("写真索引番号",  null=False)
     created_at      = models.DateTimeField('作成日時', null=False)
     update_at       = models.DateTimeField('更新日時', null=False)
     def __str__(self):
@@ -83,7 +81,6 @@ class Environment(models.Model):
     spot_id        = models.ForeignKey(Spot)
     weather        = models.CharField('天気', choices=WEATHER_CHOICES, max_length = 10, null=True, blank=True)
     temperature    = models.CharField('気温', max_length = 5, null=True, blank=True)
-    # temperature    = Integer.CharField('気温', max_length = 5, null=True)
     created_at     = models.DateTimeField('作成日時', null=False)
     update_at      = models.DateTimeField('更新日時', null=False)
     def __str__(self):
@@ -123,7 +120,7 @@ class Point_temperature(models.Model):
     environment_id       = models.ForeignKey(Environment)
     access_point_id      = models.ForeignKey(Access_point)
     point_temperature    = models.FloatField('局所気温', max_length = 5)
-    acquisition_rank     = models.IntegerField('取得順位',max_length = 2)
+    acquisition_rank     = models.IntegerField('取得順位')
     created_at   = models.DateTimeField('作成日時', null=False)
     update_at    = models.DateTimeField('更新日時', null=False)
     def __str__(self):
