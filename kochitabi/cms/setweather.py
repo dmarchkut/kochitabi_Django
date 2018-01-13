@@ -14,17 +14,26 @@ def insert_weathers(request):
     coordinate = Coordinate.objects.all().filter(latitude=coord['lat']).filter(longitude=coord['lon']).first()
     if coordinate is None:
         #座標データが存在しない
-        return
+        returnData = OrderedDict([
+            ('update to Environment', 'Not Find point_temperature'),
+        ])
+        return render_json_response(request, returnData)
 
     spot = Spot.objects.all().filter(coordinate_id=coordinate.coordinate_id).first()
     if spot is None:
         #座標データが一致する観光地データが存在しない
-        return
+        returnData = OrderedDict([
+            ('update to Environment', 'Not Find spot'),
+        ])
+        return render_json_response(request, returnData)
 
     environment = Environment.objects.all().filter(spot_id=spot.spot_id).first()
     if environment is None:
         #観光地データが一致する環境データが存在しない
-        return
+        returnData = OrderedDict([
+            ('update to Environment', 'Not Find environment'),
+        ])
+        return render_json_response(request, returnData)
 
     weather = data['weather']
     weather = weather[0]
@@ -45,12 +54,13 @@ def insert_weathers(request):
     elif weather_main == "Clouds":
         weatherText = "雲"
     else:
-        weatherText = weather_main
+        weatherText = "その他"
 
     environment.weather = weatherText
+    environment.update_at = str(datetime.datetime.now())
     environment.save()
 
     returnData = OrderedDict([
-        ('weather', weatherText),
+        ('update to Environment', 'ok'),
     ])
     return render_json_response(request, returnData)
