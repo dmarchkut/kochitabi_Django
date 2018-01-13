@@ -54,7 +54,7 @@ def Local_spotViewSet(request):
         ])
         local_spots.append(local_spot)
 
-    data = OrderedDict([ ('local_spot', local_spot) ])
+    data = OrderedDict([ ('local_spot', local_spots) ])
     return render_json_response(request, data)
 
 
@@ -67,16 +67,16 @@ def Local_environment(request):
         if spot_photo is None:
             continue
 
-        environment = OrderedDict([
+        local_environment = OrderedDict([
             ('environment_id', environment.environment_id),
             ('weather', environment.weather),
             ('temperature', environment.temperature),
             ('created_at', str(datetime.datetime.now())),
             ('update_at', str(datetime.datetime.now())),
         ])
-        local_environments.append(environment)
+        local_environments.append(local_environment)
 
-    data = OrderedDict([ ('local_spot', local_environments)])
+    data = OrderedDict([ ('local_environment', local_environments)])
     return render_json_response(request, data)
 
 
@@ -131,7 +131,6 @@ def Local_character(request):
         spot_photo = Spot_photo.objects.all().filter(spot_id=access_point.spot_id).first()
         if spot_photo is None:
             continue
-        character_data = Character_data.objects.all().filter(access_point_id=access_point.access_point_id).first()
         if character_data is None:
             continue
 

@@ -54,14 +54,13 @@ def insert_weathers(request):
     elif weather_main == "Clouds":
         weatherText = "雲"
     else:
-        weatherText = weather_main
+        weatherText = "その他"
 
     environment.weather = weatherText
     environment.update_at = str(datetime.datetime.now())
-    point_temperature.save()
     environment.save()
 
     returnData = OrderedDict([
-        ('status', 'oko'),
+        ('update to Environment', 'ok'),
     ])
     return render_json_response(request, returnData)
