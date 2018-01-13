@@ -160,12 +160,3 @@ def Local_character(request):
 
     data = OrderedDict([('local_character', local_characters)])
     return render_json_response(request, data)
-
-
-
-
-
-
-#form = MyForm(data=request.POST)
-
-#{‘coord’: {‘lon’: 133.53, ‘lat’: 33.56}, ‘weather’: [{‘id’: 803, ‘main’: ‘Clouds’, ‘description’: ‘broken clouds’, ‘icon’: ’04n’}]’cod’:200}
