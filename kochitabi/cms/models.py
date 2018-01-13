@@ -19,8 +19,8 @@ class Coordinate(models.Model):
     """座標"""
     coordinate_id   = models.CharField('座標ID', primary_key=True, validators=[MinLengthValidator(6)], max_length = 6, null=False)
     place_name      = models.TextField('地名', max_length = 50, null=False)
-    latitude        = models.FloatField('緯度', max_length = 10, null = False)
-    longitude       = models.FloatField('経度', max_length = 11, null=False)
+    latitude        = models.FloatField('緯度', max_length = 10, null=True, blank=True)
+    longitude       = models.FloatField('経度', max_length = 11, null=True, blank=True)
     created_at      = models.DateTimeField('作成日時', null=False)
     update_at       = models.DateTimeField('更新日時', null=False)
     def __str__(self):
