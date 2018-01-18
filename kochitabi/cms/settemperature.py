@@ -4,10 +4,12 @@ from rest_framework import viewsets, filters
 from collections import OrderedDict
 from django.http.response import JsonResponse
 from django.http import HttpResponse
+from django.views.decorators.http import require_http_methods
 from .models import Coordinate, Access_point, Point_temperature, Environment
 from .views import render_json_response
 
 
+@require_http_methods(["POST"])
 def insert_temperature(request):
     data = json.loads(request.body.decode())
     coord = data['coord']
@@ -46,21 +48,7 @@ def insert_temperature(request):
 
     #気温更新処理
     environment = Environment.objects.all().filter(environment_id=point_temperature.environment_id).first()
-    # if environment is None:
-    #     #観光地データが一致する環境データが存在しない
-    #     returnData = OrderedDict([
-    #         ('update to Point_temperature', 'ok'),
-    #         ('update to Environment', 'Not Find environment'),
-    #     ])
-    #     return render_json_response(request, returnData)
     point_temperature =  Point_temperature.objects.all().filter(environment_id=point_temperature.environment_id).order_by('acquisition_rank').first()
-    # if point_temperature is None:
-    #     #観光地データが一致する環境データが存在しない
-    #     returnData = OrderedDict([
-    #         ('update to Point_temperature', 'ok'),
-    #         ('update to Environment', 'Not Find point_temperature'),
-    #     ])
-    #     return render_json_response(request, returnData)
     environment.temperature = point_temperature.point_temperature
     environment.update_at = str(datetime.datetime.now())
     environment.save()

@@ -4,10 +4,12 @@ from rest_framework import viewsets, filters
 from collections import OrderedDict
 from django.http.response import JsonResponse
 from django.http import HttpResponse
+from django.views.decorators.http import require_http_methods
 from .models import Message, Coordinate, Photo_path, Spot, Character, Environment, Access_point, Character_data, Spot_photo
 from .views import render_json_response
 
 
+@require_http_methods(["POST"])
 def insert_weathers(request):
     data = json.loads(request.body.decode())
     coord = data['coord']
