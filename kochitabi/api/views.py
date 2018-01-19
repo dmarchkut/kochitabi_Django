@@ -2,8 +2,10 @@ import datetime
 import json
 from collections import OrderedDict
 from django.http import HttpResponse
+from django.views.decorators.http import require_http_methods
 from cms.models import (Message, Coordinate, Photo_path, Spot, Character,
                         Environment, Access_point, Character_data, Spot_photo)
+
 
 def render_json_response(request, data, status=None):
     """response を JSON で返却"""
@@ -19,6 +21,7 @@ def render_json_response(request, data, status=None):
     return response
 
 
+@require_http_methods(["GET", "POST"])
 def Local_spotViewSet(request):
     """ローカル観光地"""
     local_spots = []
@@ -58,6 +61,7 @@ def Local_spotViewSet(request):
     return render_json_response(request, data)
 
 
+@require_http_methods(["GET", "POST"])
 def Local_environment(request):
     local_environments = []
 
@@ -80,6 +84,7 @@ def Local_environment(request):
     return render_json_response(request, data)
 
 
+@require_http_methods(["GET", "POST"])
 def Local_access_point(request):
     local_access_points = []
 
@@ -108,6 +113,7 @@ def Local_access_point(request):
             ('access_point_name', access_point.access_point_name),
             ('latitude', coordinate.latitude),
             ('longitude', coordinate.longitude),
+            ('raspberry_pi_number', access_point.raspberry_pi_number),
             ('text_data', message.text_data),
             ('created_at', str(datetime.datetime.now())),
             ('update_at', str(datetime.datetime.now())),
@@ -118,6 +124,7 @@ def Local_access_point(request):
     return render_json_response(request, data)
 
 
+@require_http_methods(["GET", "POST"])
 def Local_character(request):
     local_characters = []
 
