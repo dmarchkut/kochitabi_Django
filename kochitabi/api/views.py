@@ -45,6 +45,7 @@ def Local_spotViewSet(request):
         local_spot = OrderedDict([
             ('spot_id', spot.spot_id),
             ('environment_id', environment.environment_id),
+            ('spot_name', spot.spot_name),
             ('spot_phoname', spot.spot_phoname),
             ('street_address', spot.street_address),
             ('postal_code', spot.postal_code),
