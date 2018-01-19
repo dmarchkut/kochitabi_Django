@@ -113,6 +113,7 @@ def Local_access_point(request):
             ('access_point_name', access_point.access_point_name),
             ('latitude', coordinate.latitude),
             ('longitude', coordinate.longitude),
+            ('raspberry_pi_number', access_point.raspberry_pi_number),
             ('text_data', message.text_data),
             ('created_at', str(datetime.datetime.now())),
             ('update_at', str(datetime.datetime.now())),
