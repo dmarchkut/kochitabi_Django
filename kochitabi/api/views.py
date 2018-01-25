@@ -54,7 +54,7 @@ def Local_spotViewSet(request):
             ('photo_file_path', photo_path.photo_file_path),
             ('text_data', message.text_data),
             ('created_at', str(datetime.datetime.now())),
-            ('update_at', str(datetime.datetime.now())),
+            ('updated_at', str(datetime.datetime.now())),
         ])
         local_spots.append(local_spot)
 
@@ -77,7 +77,7 @@ def Local_environment(request):
             ('weather', environment.weather),
             ('temperature', environment.temperature),
             ('created_at', str(datetime.datetime.now())),
-            ('update_at', str(datetime.datetime.now())),
+            ('updated_at', str(datetime.datetime.now())),
         ])
         local_environments.append(local_environment)
 
@@ -117,7 +117,7 @@ def Local_access_point(request):
             ('raspberry_pi_number', access_point.raspberry_pi_number),
             ('text_data', message.text_data),
             ('created_at', str(datetime.datetime.now())),
-            ('update_at', str(datetime.datetime.now())),
+            ('updated_at', str(datetime.datetime.now())),
         ])
         local_access_points.append(local_access_point)
 
@@ -162,7 +162,7 @@ def Local_character(request):
             ('character_name', character.character_name),
             ('character_file_path', character_data.character_file_pass),
             ('created_at', str(datetime.datetime.now())),
-            ('update_at', str(datetime.datetime.now())),
+            ('updated_at', str(datetime.datetime.now())),
         ])
         local_characters.append(local_character)
 
