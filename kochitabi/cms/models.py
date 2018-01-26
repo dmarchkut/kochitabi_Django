@@ -23,10 +23,12 @@ class Coordinate(models.Model):
     """座標"""
     coordinate_id   = models.CharField('座標ID', primary_key=True, validators=[MinLengthValidator(6)], max_length = 6, null=False, default = 'co')
     place_name      = models.TextField('地名', max_length = 50, null=False)
-    latitude        = models.FloatField('緯度', max_length = 10, null=True, blank=True)
-    longitude       = models.FloatField('経度', max_length = 11, null=True, blank=True)
-    created_at      = models.DateTimeField('作成日時', null=False, default=datetime.now())
-    update_at       = models.DateTimeField('更新日時', null=False, default=datetime.now())
+
+    latitude        = models.FloatField('緯度', validators=[MaxValueValidator(90),MinValueValidator(-90)], max_length = 10, null=True, blank=True)
+    longitude       = models.FloatField('経度', validators=[MaxValueValidator(180),MinValueValidator(-180)], max_length = 11, null=True, blank=True)
+    created_at      = models.DateTimeField('作成日時', null=False)
+    update_at       = models.DateTimeField('更新日時', null=False)
+
     def __str__(self):
         if len(self.place_name) > 30:
             return '['+self.coordinate_id+'] '+self.place_name[:30]+'...'
@@ -154,7 +156,7 @@ class Point_temperature(models.Model):
     point_temperature_id = models.CharField('局所気温ID', primary_key=True, validators=[MinLengthValidator(6)], max_length = 6, null=False, default = 'pt')
     environment_id       = models.ForeignKey(Environment, verbose_name='環境ID')
     access_point_id      = models.ForeignKey(Access_point, verbose_name='アクセスポイントID')
-    point_temperature    = models.FloatField('局所気温', max_length = 5)
+    point_temperature    = models.FloatField('局所気温', validators=[MaxValueValidator(85),MinValueValidator(-40)],  max_length = 5)
     acquisition_rank     = models.IntegerField('取得順位', validators=[MaxValueValidator(99)])
     created_at   = models.DateTimeField('作成日時', null=False, default=datetime.now())
     update_at    = models.DateTimeField('更新日時', null=False, default=datetime.now())

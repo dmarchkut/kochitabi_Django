@@ -54,7 +54,7 @@ def insert_weathers(request):
     elif weather_main == "Clear":
         weatherText = "晴れ"
     elif weather_main == "Clouds":
-        weatherText = "雲"
+        weatherText = "曇り"
     else:
         weatherText = "その他"
 
